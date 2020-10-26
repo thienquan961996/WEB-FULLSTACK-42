@@ -1,0 +1,25 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.new-page{
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.new-page .left-side{
+    flex-grow: 1;
+    text-align: center;
+}
+
+.new-page .main{
+    flex-grow: 3;
+}
+
+.new-page .right-side{
+    flex-grow: 2;
+}
