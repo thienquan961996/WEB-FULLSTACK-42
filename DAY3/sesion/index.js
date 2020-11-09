@@ -9,6 +9,8 @@ web full stack 42
 hello
 `;
 
+
+
 // fs.writeFile('test.txt', str1, (err) =>{
 //     if(err) return console.log(err);
 //     console.log('success')
@@ -26,7 +28,11 @@ hello
 // });
 
 
-fs.readFile('./test.txt', {encoding : 'utf8'}, (err,data) =>{
-    if (err) return console.log(err);
-    console.log(data);
-});
+// fs.readFile('./test.txt', {encoding : 'utf8'}, (err,data) =>{
+//     if (err) return console.log(err);
+//     console.log(data);
+// });
+
+// const data = fs.readFileSync('./test.txt', {encoding : 'utf8'} )
+// console.log(data);
+
