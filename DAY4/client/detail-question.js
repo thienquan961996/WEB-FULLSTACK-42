@@ -1,25 +1,36 @@
-//lấy id câu hỏi
+// Bước 1: Lấy id câu hỏi
+const pathName = window.location.pathname;
+const idQuestion = pathName.split('/').pop();
 
-const pathname = window.location.pathname
-let idQuestion = pathname.split('/').pop()
 
+// fetch
 $.ajax({
-    url: `http://localhost:3000/detail-question/${idQuestion}`,
-    method: 'get',
-    success: (res) =>{
-        const question = res.data;
-        const { content, yesCount, noCount} = question;
-        const total = parseInt(yesCount) + parseInt(noCount)
-        const percentYes = total !==0 ? (parseInt(yesCount) / total *100).toFixed(2) : parseFloat(50).toFixed(2)
-        const percentNo = (100 - percentYes).toFixed(2)
-        
-        document.getElementById('contentQuestion').innerHTML = content; // $('#contentQuestion').html(content)
-        document.getElementById('percentYes').innerHTML = percentYes;   // $('#percentYes').html(percentYes)
-        document.getElementById('percentNo').innerHTML = percentNo; // $('#percentNo').html(percentNo)
-        document.getElementById('totalVote').innerHTML = total; // $('#totalVote').html(total)
-    },
-    error: (res) =>{
-        console.log(res)
+  url: `http://localhost:3000/detail-question/${idQuestion}`,
+  method: 'GET',
+  success: (res) => {
+    if (res.success) {
+      const question = res.data;
+      const { content, yesCount:yes, noCount:no } = question;
+      // const content = question.content;
+      console.log(question);
+
+      const total = parseInt(yes) + parseInt(no);
+      const percentYes = total !== 0 ? (parseInt(yes) / total * 100).toFixed(2) : parseFloat(50).toFixed(2);
+      const percentNo = (100 - percentYes).toFixed(2);
+      // nhiệm vụ render client :
+      $('#contentQuestion').html(content);
+      $('#totalVote').html(total);
+      $('#percentYes').html(percentYes);
+      $('#percentNo').html(percentNo);
+      $('#noProgress').css({ width: `${percentNo}%` });
+      $('#yesProgress').css({ width: `${percentYes}%` });
     }
+  },
+  error: (res) => {
+    console.log(res);
+  } 
 })
 
+// console.log(document.getElementById('contentQuestion'))
+
+// console.log($)

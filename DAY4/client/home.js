@@ -1,67 +1,83 @@
-//lấy id câu hỏi
+// window.onload = () => {
 
+// }
 
-let idQuestion;
-
-const getRandomQuestion = () => {
-    $.ajax({
-        url: `http://localhost:3000/random-question/`,
-        method: 'get',
+$(document).ready(() => {
+    let idQuestion;
+  
+    const getRandomQuestion = () => {
+      $.ajax({
+        url: `http://localhost:3000/random-question`,
+        method: 'GET',
         success: (res) => {
-            if (res.success) {
-                const question = res.data;
-                const { content, yesCount, noCount, id } = question;
-
-                // nhiệm vụ render client
-                idQuestion = id;
-
-
-                document.getElementById('contentQuestion').innerHTML = question.content; // $('#contentQuestion').html(question.content)
-            }
+          if (res.success) {
+            const question = res.data;
+            const { content, yesCount: yes, noCount: no, id } = question;
+            // nhiệm vụ render client :
+            idQuestion = id;
+            $('#contentQuestion').html(content);
+          }
         },
         error: (res) => {
-            console.log(res)
+          console.log(res);
         }
-    })
-}
-getRandomQuestion();
-
-document.getElementById('ortherQuestion').addEventListener('click', () => {  //$('#ortherQuestion').on('click'), () =>{}
+      })
+    }
+  
     getRandomQuestion();
-})
-
-const sendRequestVote = (type) =>{
-    $.ajax({
-        url: `http://localhost:3000/vote-question/${idQuestion}/${type}`,
-        method: 'get',
-        success: (res) => {
-            console.log(res);
-            window.location.href = `http://localhost:3000/question/${idQuestion}`
-        }
+  
+    const otherQuestionBtn = $('#otherQuestion');
+    otherQuestionBtn.on('click', () => {
+      // c1: Load lại trang
+      // window.location.reload();
+  
+      // c2: gọi lại http get random question
+      getRandomQuestion();
     })
-};
-document.getElementById('noBtn').addEventListener('click', () => {
-    // gọi lên server request
-    // $.ajax({
-    //     url: `http://localhost:3000/vote-question/${idQuestion}/no`,
-    //     method: 'get',
-    //     success: (res) => {
-    //         console.log(res);
-    //         window.location.href = `http://localhost:3000/question/${idQuestion}`
-    //     }
+  
+    const sendRequestVote = (type) => {
+      $.ajax({
+        url: `http://localhost:3000/vote-question/${idQuestion}/${type}`,
+        method: 'GET',
+        success: (res) => {
+          console.log(res);
+          window.location.href = `http://localhost:3000/question/${idQuestion}`
+        }
+      })
+    };
+  
+    // $('#noBtn').on('click', () => {
+      // gọi lên server request
+      // $.ajax({
+      //   url: 'http://localhost:3000/vote-question',
+      //   method: 'POST',
+      //   data: {
+      //     idQuestion,
+      //     voteType: no,
+      //   }
+      // })
+      // $.ajax({
+      //   url: `http://localhost:3000/vote-question/${idQuestion}/no`,
+      //   method: 'GET',
+      //   success: (res) => {
+      //     console.log(res);
+      //     window.location.href = `http://localhost:3000/question/${idQuestion}`
+      //   }
+      // })
+      // sendRequestVote('no');
     // })
-    sendRequestVote('no');
-});
-document.getElementById('yesBtn').addEventListener('click', () => {
-    // gọi lên server request
+  
+    // $('#yesBtn').on('click', () => {
+    //   sendRequestVote('no');
+    // })
+  
+    // document.querySelectorAll('.voteBtn').forEach()
+  
 
-    // $.ajax({
-    //     url: `http://localhost:3000/vote-question/${idQuestion}/yes`,
-    //     method: 'get',
-    //     success: (res) => {
-    //         console.log(res);
-    //         window.location.href = `http://localhost:3000/question/${idQuestion}`
-    //     }
-    // })
-    sendRequestVote('yes');
-})
+    // chú ý this
+  
+    $('.voteBtn').on('click', function() {
+      const voteType = $(this).attr('data-type');
+      sendRequestVote(voteType);
+    })
+  })
