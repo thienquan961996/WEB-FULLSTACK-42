@@ -31,6 +31,6 @@ $(document).ready(() => {
                     $('#result').append(htmlDom);
                 }
             }
-        })
+        }) 
     })
 })
