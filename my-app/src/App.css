@@ -4,3 +4,6 @@
 .Image-card img{
   width: 100%;
 }
+.App .Image-card {
+  margin-bottom: 20px;
+}
