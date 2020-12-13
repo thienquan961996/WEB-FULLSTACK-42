@@ -1,25 +1,14 @@
-import React from 'react'
-import { debounce, throttle } from 'lodash';
-
+import React from 'react';
 
 
 class FormSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
-
+    
     handleClick = async (event) => {
         const { keyword } = this.props;
         this.props.submitForm(keyword)
 
     }
 
-    debounceFetch = debounce(() => {
-        this.fetchData(this.state.keyword);
-    }, 1000)
 
     handleChange = (event) => {
         this.props.handleChangeKeyword(event.target.value);

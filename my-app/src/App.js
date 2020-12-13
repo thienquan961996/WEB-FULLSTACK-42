@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import InfiniteScroll from "react-infinite-scroll-component";
+import { debounce } from 'lodash';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Header from './components/Header'
 import FormSearch from './components/FromSearch'
 import ImageCard from './components/imageCard'
@@ -74,8 +75,13 @@ class App extends React.Component {
     this.fetchData(this.state.keyword, this.state.offset + 25)
   }
 
+  debounceFetch = debounce((keyword) => {
+    this.fetchData(keyword);
+  }, 1000)
+
   handleChangeKeyword = (keyword) =>{
     this.setState({ keyword });
+    this.debounceFetch(keyword)
   }
 
   render() {
