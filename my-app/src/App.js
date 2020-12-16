@@ -88,7 +88,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="container">
-          <Header />
+          <Header loading={this.state.loading}/>
           <FormSearch
             handleChangeKeyword={this.handleChangeKeyword}
             keyword={this.state.keyword}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -19,9 +19,31 @@ const [offset, setOffset] = useState(0);
 const [images, setImages] = useState([]);
 const [hasMore, setHasMore] = useState(true);
 
-useEffect(() =>{
-    console.log('use effect');
-}, [])
+// useEffect(() =>{
+//     console.log('use effect');
+// }, []);
+
+const debounceFetchMemo = useMemo(() =>{
+  const debounceFetch = debounce((newKeyword) => {
+    fetchData(newKeyword);
+  }, 1000)
+  return debounceFetch;
+}, []);
+
+const cb = useCallback(() =>{
+  console.log('use callback')
+  return true;
+}, [keyword]);
+
+console.log('typeof cb', typeof cb)
+// không chạy function mà gán function đó vào biến cb => typeof cb === 'function'
+
+const memoVar = useMemo(() =>{
+  console.log('use callback');
+  return true;
+}, [keyword]);
+
+// chạy function mà gán function đó vào biến cb => typeof memoVar === ''
 
 const renderImages = () => {
     return images.map((image, idx) => {
@@ -69,20 +91,22 @@ const fetchData = async (keyword, offset = 0) => {
     fetchData(keyword, offset + 25)
   }
 
-  const debounceFetch = debounce((newKeyword) => {
-    fetchData(newKeyword);
-  }, 1000)
+  // const debounceFetch = debounce((newKeyword) => {
+  //   fetchData(newKeyword);
+  // }, 1000)
 
   const handleChangeKeyword = (newKeyword) =>{
     setKeyword(newKeyword);
-    debounceFetch(newKeyword);
+    debounceFetchMemo(newKeyword);
   }
+  
+  console.log('render')
 
     return (
       <div className="App">
         <div className="container">
             <h1>su dung hook</h1>
-          <Header />
+          <Header loading={loading}/>
           <FormSearch
             handleChangeKeyword={handleChangeKeyword}
             keyword={keyword}
