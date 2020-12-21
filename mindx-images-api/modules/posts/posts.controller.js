@@ -1,4 +1,5 @@
 const PostModel = require('./post');
+const CommentController = require('../comments/comments.controller')
 
 const createPost = async ({
   title,
@@ -32,10 +33,29 @@ const getPosts = async ({ page, limit }) => {
 }
 
 const getPost = async (id) => {
-  const foundPost = await PostModel.findById(id);
+  // const foundPost = await PostModel.findById(id);
   
-  if (!foundPost) throw new Error('Not found post');
-  return foundPost;
+  // if (!foundPost) throw new Error('Not found post');
+
+  // const comments = await CommentController.getCommentsByPost(id);
+
+  // const clonePost = JSON.parse(JSON.stringify(foundPost));
+
+  // return {...clonePost, comments };
+
+  // C2:
+     const foundPost = await PostModel.findById(id)
+     .populate({
+       path: 'comments',
+       populate: {
+         path: 'createdBy',
+         select: 'username'
+       }
+       });
+     if (!foundPost) throw new Error('Not found post');
+
+     return foundPost;
+
 } 
 
 module.exports = {

@@ -1,4 +1,4 @@
-const CommentModel = require('./post');
+const CommentModel = require('./comment');
 
 const createComment = async ({
   content,
@@ -11,8 +11,15 @@ const createComment = async ({
     createdBy: userId  
   });
   return newComment;
+};
+
+const getCommentsByPost = async (postId) =>{
+    const comments = await CommentModel.find({ post: postId }).populate('createdBy', 'username');
+
+    return comments;
 }
 
 module.exports = {
-    createComment
+    createComment,
+    getCommentsByPost
 }

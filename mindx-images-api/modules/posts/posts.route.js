@@ -48,10 +48,14 @@ PostRouter.get('/', async (req, res) => {
 // get detail post
 // GET /api/posts/:id
 PostRouter.get('/:id', async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const foundPost = await PostController.getPost(id);
-  res.send({ success: 1, data: foundPost });
+    const foundPost = await PostController.getPost(id);
+    res.send({ success: 1, data: foundPost });
+  } catch (err) {
+    res.send({ success: 0, message: err.message })
+  }
 })
 
 module.exports = PostRouter;
