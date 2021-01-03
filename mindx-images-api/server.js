@@ -32,7 +32,7 @@ app.get('/ping', (req, res) =>{
 })
 
 // khởi tạo server
-app.listen(8080, (err) => {
+app.listen(process.env.PORT || 8080 , (err) => {
   if (err) throw err;
   console.log('Server started');
 });
