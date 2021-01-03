@@ -6,11 +6,11 @@
     justify-content: center;
   }
   
-.Login, .Signup {
+  .Login, .Signup {
     min-width: 400px;
   }
   
-.form-wrapper {
+  .form-wrapper {
     background-color: #ffffff;
     padding: 24px;
-}
+  }

@@ -1,4 +1,5 @@
 const AuthRouter = require('express').Router();
+const isAuth = require('../shared/isAuth');
 const AuthController = require('./auth.controller');
 // post /api/auth/login
 AuthRouter.post('/login', async (req, res) => {
@@ -25,5 +26,9 @@ AuthRouter.post('/signup', async (req, res) => {
     res.send({ success: 0, message: err.message })
   }
 });
+
+AuthRouter.get('/verify', isAuth, async (req, res) =>{
+  res.send({ success: 1, data: req.user });
+})
 
 module.exports = AuthRouter;

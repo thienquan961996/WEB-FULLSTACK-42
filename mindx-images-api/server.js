@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGODB_URI, (err) => {
 });
 
 app.use(cors());
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(log);
@@ -26,7 +27,9 @@ app.use(`/${prefix}/auth`, AuthRouter);
 app.use(`/${prefix}/posts`, PostRouter);
 app.use(`/${prefix}/comments`, CommentRouter);
 
-
+app.get('/ping', (req, res) =>{
+  res.send('pong');
+})
 
 // khởi tạo server
 app.listen(8080, (err) => {
